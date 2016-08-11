@@ -51,7 +51,6 @@ public class Main {
         SpellCheckerListener.init();
         registerCommands();
         UserPrivs.setupUsers();
-        enableCommandLineMessenger();
         //WarningHandler.setup();
     }
 
@@ -60,6 +59,7 @@ public class Main {
         commands.put("admin", new AdminCommand());
         commands.put("projects", new ProjectsCommands());
         commands.put("userid", new PlayerIdCommand());
+        commands.put("correction", new SpellCheckerCommand());
         //commands.put("warn", new WarningCommand());
     }
 
@@ -73,29 +73,6 @@ public class Main {
             }else {
                 commands.get(cmd.invoke).executed(safe, cmd.event);
             }
-        }
-    }
-
-    public static void enableCommandLineMessenger(){
-        Scanner consoleScanner = new Scanner(System.in);
-        String input = consoleScanner.nextLine();
-
-        if(input.startsWith("console")) {
-            String message = input.substring(7);
-
-            for (int x = 0; x < jda.getGuilds().size(); x++) {
-                Guild guild = jda.getGuilds().get(x);
-
-                if(guild.getId().equals(Constants.SSL_DISCORD_ID)) {
-                    guild.getPublicChannel().sendMessage(MessageUtils.wrapStringInCodeBlock("[CONSOLE] " + message));
-                    BotLogger.log("console ", message);
-                }
-            }
-        }else if(input.startsWith("allowUsers")){
-            String message = input.substring(11);
-            boolean enable = Boolean.parseBoolean(message);
-
-            System.out.println(enable);
         }
     }
 }
